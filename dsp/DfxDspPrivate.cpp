@@ -209,17 +209,12 @@ void DfxDspPrivate::powerOn(bool on)
 
 bool DfxDspPrivate::isPowerOn()
 {
-	int value;
-	
-	dfxpGetButtonValue(dfxp_handle_, DFX_UI_BUTTON_BYPASS, &value);
-	if (value != 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+        int value;
+
+        dfxpGetButtonValue(dfxp_handle_, DFX_UI_BUTTON_BYPASS, &value);
+        // The BYPASS button returns non-zero when processing is disabled.
+        // Power is on only when bypass is off (value == 0).
+        return value == 0;
 }
 
 float DfxDspPrivate::getEffectValue(DfxDsp::Effect effect)
